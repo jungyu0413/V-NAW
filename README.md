@@ -1,4 +1,4 @@
-# V-NAW: Video-based Noise-aware Adaptive Weighting for Facial Expression Recognition (CVPR 2025 ABAW)
+# V-NAW: Video-based Noise-aware Adaptive Weighting for Facial Expression Recognition (CVPR Workshop 2025 ABAW)
 
 This repository contains the official implementation of the paper:  
 **["V-NAW: Video-based Noise-aware Adaptive Weighting for Facial Expression Recognition"](https://arxiv.org/abs/2503.15970)**
