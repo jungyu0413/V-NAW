@@ -94,28 +94,8 @@ Runs expression recognition inference on the input video using the trained model
 
 ---
 
-## Project Structure
 
-```
-.
-├── configs/              # Configuration files
-├── data/                 # Dataset processing and loading
-├── models/               # Model architectures
-├── modules/              # Loss functions, metrics, and utilities
-├── train_exp.py          # Single-GPU training script
-├── DDP_train_exp.py      # Multi-GPU training script (DDP)
-├── inference.py          # Inference script
-├── requirements.txt
-└── README.md
-```
 
----
 
-## Contact
-
-- Email: [jungyu0413@gmail.com](mailto:jungyu0413@gmail.com)
-- GitHub: [github.com/jungyu0413](https://github.com/jungyu0413)
-- Google Scholar: [scholar.google.com/citations?user=2pnIJggAAAAJ&hl=ko](https://scholar.google.com/citations?user=2pnIJggAAAAJ&hl=ko)
-- LinkedIn: [linkedin.com/in/jungyu-lee-0315sb](https://www.linkedin.com/in/jungyu-lee-0315sb/)
 
 
