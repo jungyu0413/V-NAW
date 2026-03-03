@@ -98,13 +98,13 @@ python inference.py --video path_to_video.mp4
 ## 📊 Framework & Results
 
 ### Main Architecture
-<img src="[https://github.com/user-attachments/assets/a607d06b-5a5b-4bce-a15a-15b6b613f40d](https://github.com/user-attachments/assets/a607d06b-5a5b-4bce-a15a-15b6b613f40d)" width="900" alt="Architecture" />
+<img src="[https://github.com/user-attachments/assets/ef7f5977-b53b-4630-b280-79133549c8a9](https://github.com/user-attachments/assets/ef7f5977-b53b-4630-b280-79133549c8a9)" width="900" alt="Architecture" />
 
 ### Performance Results
-<img src="[https://github.com/user-attachments/assets/7a299baa-f045-4645-82f0-e15f8d3e0341](https://github.com/user-attachments/assets/7a299baa-f045-4645-82f0-e15f8d3e0341)" width="900" alt="Main Results" />
+<img src="[https://github.com/user-attachments/assets/6e4b345d-7a28-4d77-85cd-71d244d378cb](https://github.com/user-attachments/assets/6e4b345d-7a28-4d77-85cd-71d244d378cb)" width="900" alt="Main Results" />
 
 ### Ablation Study
-<img src="[https://github.com/user-attachments/assets/5afb6e0b-321c-4eb8-a444-89d46372dc5a](https://github.com/user-attachments/assets/5afb6e0b-321c-4eb8-a444-89d46372dc5a)" width="900" alt="Ablation Study" />
+<img src="[https://github.com/user-attachments/assets/ba2cae68-c240-446d-9125-69ba56365303](https://github.com/user-attachments/assets/ba2cae68-c240-446d-9125-69ba56365303)" width="900" alt="Ablation Study" />
 
 ---
 
@@ -123,7 +123,5 @@ If you find this repository or our paper useful for your research, please consid
 
 ## 🙏 Acknowledgements
 This research was supported by the KIST Institutional Program (Project No. 2E33612).
-
-
 
 
