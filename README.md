@@ -98,13 +98,13 @@ python inference.py --video path_to_video.mp4
 ## 📊 Framework & Results
 
 ### Main Architecture
-<img src="[https://github.com/user-attachments/assets/f697ce89-8c2b-4b3e-81d5-047770b5a677](https://github.com/user-attachments/assets/f697ce89-8c2b-4b3e-81d5-047770b5a677)" width="700" alt="Architecture" />
+<img src="[https://github.com/user-attachments/assets/a607d06b-5a5b-4bce-a15a-15b6b613f40d](https://github.com/user-attachments/assets/a607d06b-5a5b-4bce-a15a-15b6b613f40d)" width="900" alt="Architecture" />
 
 ### Performance Results
-<img src="[https://github.com/user-attachments/assets/d56bf7d3-1734-42d6-bb31-95badf6881f5](https://github.com/user-attachments/assets/d56bf7d3-1734-42d6-bb31-95badf6881f5)" width="700" alt="Main Results" />
+<img src="[https://github.com/user-attachments/assets/7a299baa-f045-4645-82f0-e15f8d3e0341](https://github.com/user-attachments/assets/7a299baa-f045-4645-82f0-e15f8d3e0341)" width="900" alt="Main Results" />
 
 ### Ablation Study
-<img src="[https://github.com/user-attachments/assets/70f43306-28ff-4be4-8520-40803d833eff](https://github.com/user-attachments/assets/70f43306-28ff-4be4-8520-40803d833eff)" width="700" alt="Ablation Study" />
+<img src="[https://github.com/user-attachments/assets/5afb6e0b-321c-4eb8-a444-89d46372dc5a](https://github.com/user-attachments/assets/5afb6e0b-321c-4eb8-a444-89d46372dc5a)" width="900" alt="Ablation Study" />
 
 ---
 
