@@ -1,127 +1,139 @@
-# V-NAW: Video-based Noise-aware Adaptive Weighting for Facial Expression Recognition (CVPRW 2025)
+<h2 align="center">V-NAW: Video-based Noise-aware Adaptive Weighting<br>for Facial Expression Recognition</h2>
+<p align="center">
+  <a href="https://jungyu0413.github.io/"><strong>JunGyu Lee</strong></a>
+  ·
+  <a href="https://prl.kangwon.ac.kr/"><strong>Kunyoung Lee</strong></a>
+  ·
+  <a href="https://scholar.google.com/citations?user=UG-9gMYAAAAJ"><strong>Haesol Park</strong></a>
+  ·
+  <a href="https://sites.google.com/view/ijkim"><strong>Ig-Jae Kim</strong></a>
+  ·
+  <a href="https://vig.kist.re.kr"><strong>Gi Pyo Nam</strong></a>
+  <br>
+  CVPR 2025 Workshops (8th ABAW) · 🏆 5th place, Expression Recognition Track
+</p>
 
-[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b.svg)](https://arxiv.org/abs/2503.15970)
-[![Challenge](https://img.shields.io/badge/CVPR_2025-ABAW_Challenge-blue)](https://affective-behavior-analysis-in-the-wild.github.io/8th/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+<p align="center">
+  <a href="https://openaccess.thecvf.com/content/CVPR2025W/ABAW/html/Lee_V-NAW_Video-based_Noise-aware_Adaptive_Weighting_for_Facial_Expression_Recognition_CVPRW_2025_paper.html"><strong><code>CVPRW Paper</code></strong></a>
+  <a href="https://arxiv.org/abs/2503.15970"><strong><code>arXiv</code></strong></a>
+  <a href="https://affective-behavior-analysis-in-the-wild.github.io/8th/"><strong><code>ABAW Challenge</code></strong></a>
+  <a href="https://github.com/jungyu0413/NLA"><strong><code>Image Model (NLA)</code></strong></a>
+  <a href="#-citation"><strong><code>Citation</code></strong></a>
+</p>
 
-This repository contains the official implementation of the paper **"V-NAW: Video-based Noise-aware Adaptive Weighting for Facial Expression Recognition"**, presented at the **CVPR 2025 8th ABAW Challenge Workshop**.
+<div align="center">
+  <br><img src="assets/pipeline.png" width="90%">
+  <br>V-NAW: a pre-trained image encoder and a temporal encoder predict each clip, and NAW re-weights the loss by the clip's ambiguity.
+</div>
 
-🏆 **Challenge Result:** Our model ranked **5th place** in the Facial Expression Recognition (EXPR) Track of the [8th ABAW Challenge](https://affective-behavior-analysis-in-the-wild.github.io/8th/).
+<br>**Summary**: Video-based facial expression recognition on **Aff-Wild2** that carries the noise- and imbalance-aware weighting of [NLA](https://github.com/jungyu0413/NLA) to **video clips**, together with augmentations that reduce **frame-to-frame redundancy**.
 
-> **Abstract:** Facial Expression Recognition (FER) plays a crucial role in human affective analysis and has been widely applied in computer vision tasks such as human-computer interaction and psychological assessment. The 8th Affective Behavior Analysis in-the-Wild (ABAW) Challenge aims to assess human emotions using the video-based Aff-Wild2 dataset. In this paper, we demonstrate that addressing label ambiguity and class imbalance, which are known to cause performance degradation, can lead to meaningful performance improvements. Specifically, we propose Video-based Noise-aware Adaptive Weighting (V-NAW), which adaptively assigns importance to each frame in a clip to address label ambiguity and effectively capture temporal variations in facial expressions. Furthermore, we introduce a simple and effective augmentation strategy to reduce redundancy between consecutive frames, which is a primary cause of overfitting.
+<br>
 
----
+## 🎬 V-NAW Framework
+* **Clip-level adaptive weighting**: Frame-wise probabilities from the temporal encoder are averaged into a clip prediction, and Noise-aware Adaptive Weighting (NAW) weights the loss by how ambiguous the clip is, which also boosts minority expressions.
+* **Frame skipping**: Randomly dropping frames inside a clip (for example 20–40%) stops the model from overfitting to near-identical consecutive frames.
+* **In-frame random erasing**: The same 20% of pixels is masked in every frame of a clip, so the model cannot rely on one facial region.
+* **Strong image prior**: A Swin Transformer image encoder is first trained with NLA on FERPlus, RAF-DB, and AffectNet, then a Transformer encoder models temporal context.
+* **Vision only**: No audio or text features, yet 5th place in the EXPR track of the 8th ABAW Challenge.
 
-## 📂 Repository Structure
+<br>
 
-```text
-V-NAW/
-│
-├── configs/
-│   └── vnaw_config.yaml   # Hyperparameters and training configurations
-├── data/                  # Directory for Aff-Wild2 dataset
-├── src/
-│   ├── dataset.py         # Dataloaders for video datasets
-│   ├── loss.py            # Implementation of V-NAW
-│   ├── model.py           # Network architecture (Temporal Encoder)
-│   ├── resnet.py          # ResNet base functions
-│   ├── resnet18.py        # ResNet-18 backbone
-│   ├── test.py            # Evaluation functions
-│   ├── train.py           # Training loops and optimization
-│   └── utils.py           # Evaluation metrics and helper functions
-│
-├── DDP_train_exp.py       # Multi-GPU training script (Distributed Data Parallel)
-├── train_exp.py           # Single-GPU training script
-├── inference.py           # Script for running inference on videos
-└── README.md
-```
+## 📊 Results
+Macro F1 (%) over the 8 expression classes on the official Aff-Wild2 validation set. The official challenge baseline scores 25.00.
 
----
+| Aug | NAW | Neutral | Anger | Disgust | Fear | Happiness | Sadness | Surprise | Other | **Avg.** |
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| | | 48.67 | 42.46 | 27.44 | 17.26 | 42.10 | 47.16 | 22.23 | 45.96 | 36.66 |
+| ✓ | | 52.56 | 42.11 | 26.66 | 17.93 | 43.73 | 48.99 | 24.25 | 47.64 | 37.98 |
+| | ✓ | 50.12 | 45.67 | 34.89 | 19.78 | 45.02 | 50.13 | 29.10 | 47.34 | 40.26 |
+| ✓ | ✓ | 57.12 | 45.76 | 33.45 | 23.34 | 43.67 | 50.12 | 30.23 | 50.82 | **41.81** |
 
-## ⚙️ Environment Setup
+<details>
+<summary><b>Cross-validation folds</b> (click to expand)</summary>
 
-We recommend using Anaconda to manage the environment.
+<br>F1 (%) with three additional 7:3 train/validation splits.
 
+| Val Set | Neutral | Anger | Disgust | Fear | Happiness | Sadness | Surprise | Other | **Avg.** |
+| :-- | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| Official | 57.12 | 45.76 | 33.45 | 23.34 | 43.67 | 50.12 | 30.23 | 50.82 | 41.81 |
+| Fold 1 | 55.98 | 35.12 | 24.76 | 20.45 | 55.23 | 54.34 | 34.45 | 40.89 | 40.15 |
+| Fold 2 | 50.34 | 41.89 | 23.45 | 22.76 | 47.12 | 52.98 | 32.78 | 42.22 | 39.19 |
+| Fold 3 | 52.45 | 38.12 | 23.34 | 22.98 | 38.78 | 54.45 | 33.67 | 47.12 | 38.86 |
+
+</details>
+
+<br>
+
+## 🚀 Getting Started
+### Setup
+**Environment**
+<br>The code is written in Python 3.8 with PyTorch. Install the remaining dependencies with:
 ```bash
-# Clone the repository
-git clone https://github.com/jungyu0413/V-NAW-Video-FER.git
-cd V-NAW-Video-FER
-
-# Create and activate a conda environment
-conda create -n vnaw python=3.8
-conda activate vnaw
-
-# Install dependencies
-pip install -r requirements.txt
+git clone https://github.com/jungyu0413/V-NAW.git
+cd V-NAW
+pip install torch torchvision timm numpy pandas opencv-python pillow tqdm wandb torchsampler onnxruntime
 ```
+Training logs are sent to [Weights & Biases](https://wandb.ai). Run `wandb login` first, or set `WANDB_MODE=offline` to log locally.
 
----
+**Dataset**
+<br>Request [Aff-Wild2](https://ibug.doc.ic.ac.uk/resources/aff-wild2/) through the ABAW Challenge. The loader expects the cropped and aligned frames, one folder per video with frames named `00001.jpg`, `00002.jpg`, …, and the per-video EXPR annotation `.txt` files for the train and validation sets (for example, `EXPR_Recognition_Challenge/Train_Set` and `EXPR_Recognition_Challenge/Validation_Set` from the ABAW annotation release).
+Set the frame root in [`data/data_loader.py` lines 543 and 547](data/data_loader.py#L543-L547).
 
-## 💾 Data Preparation
-
-1. Download the **[Aff-Wild2](https://ibug.doc.ic.ac.uk/resources/aff-wild2/)** dataset.
-2. Organize the data as described in the dataset guidelines (or refer to `DATASET.md` if available).
-3. Ensure the dataset path is correctly configured in your `configs/vnaw_config.yaml`.
-
----
-
-## 🚀 How to Run
+**Pre-trained image encoder**
+<br>V-NAW starts from a frame-level Swin Transformer trained with [NLA](https://github.com/jungyu0413/NLA) on FERPlus, RAF-DB, and AffectNet. Set its checkpoint path in [`src/model.py` line 103](src/model.py#L103).
 
 ### Training
-
-We provide two training scripts depending on your hardware environment:
-
-**Option A: Multi-GPU Training (Distributed Data Parallel)**
-To train using multiple GPUs via PyTorch DDP. This automatically uses all available GPUs on a single node without requiring `torchrun` or additional launchers, making it highly efficient for large-scale training. *(Ensure that your environment supports the NCCL backend for multi-GPU communication)*:
-
+Single GPU (set the GPU id in [`train_exp.py` line 3](train_exp.py#L3)):
 ```bash
-python DDP_train_exp.py --config configs/vnaw_config.yaml
+python train_exp.py \
+  --train_csv_path <ANNOTATIONS>/EXPR_Recognition_Challenge/Train_Set \
+  --valid_csv_path <ANNOTATIONS>/EXPR_Recognition_Challenge/Validation_Set
 ```
-
-**Option B: Single-GPU Training**
-Easy to use for debugging or small-scale experiments on a single GPU:
-
+Multiple GPUs with DistributedDataParallel, one process per GPU listed in [`DDP_train_exp.py` line 3](DDP_train_exp.py#L3):
 ```bash
-python train_exp.py --config configs/vnaw_config.yaml
+python DDP_train_exp.py \
+  --train_csv_path <ANNOTATIONS>/EXPR_Recognition_Challenge/Train_Set \
+  --valid_csv_path <ANNOTATIONS>/EXPR_Recognition_Challenge/Validation_Set
 ```
+The defaults match the paper: Swin backbone, 100-frame clips, AdamW with learning rate 1e-4, and the full objective (`--type NLA`). The model with the best validation F1 is saved under `--output_dir` (default `./weights`).
 
-### Inference
+<br>
 
-Run expression recognition inference on a custom input video using the trained model:
+## 📖 Citation
+If you find this work useful for your research, please cite our papers :)
 
-```bash
-python inference.py --video path_to_video.mp4
-```
-
----
-
-## 📊 Framework & Results
-
-### Main Architecture
-<img src="[https://github.com/user-attachments/assets/ef7f5977-b53b-4630-b280-79133549c8a9](https://github.com/user-attachments/assets/ef7f5977-b53b-4630-b280-79133549c8a9)" width="900" alt="Architecture" />
-
-### Performance Results
-<img src="[https://github.com/user-attachments/assets/6e4b345d-7a28-4d77-85cd-71d244d378cb](https://github.com/user-attachments/assets/6e4b345d-7a28-4d77-85cd-71d244d378cb)" width="900" alt="Main Results" />
-
-### Ablation Study
-<img src="[https://github.com/user-attachments/assets/ba2cae68-c240-446d-9125-69ba56365303](https://github.com/user-attachments/assets/ba2cae68-c240-446d-9125-69ba56365303)" width="900" alt="Ablation Study" />
-
----
-
-## 📜 Citation
-
-If you find this repository or our paper useful for your research, please consider citing:
+[**`🎬 V-NAW (CVPRW'25) 🎬`**](https://github.com/jungyu0413/V-NAW) **|**
+[**`😐😲 NLA (AAAI'25) 😢😠`**](https://github.com/jungyu0413/NLA)
 
 ```bibtex
 @inproceedings{lee2025vnaw,
   title={V-NAW: Video-based Noise-aware Adaptive Weighting for Facial Expression Recognition},
   author={Lee, JunGyu and Lee, Kunyoung and Park, Haesol and Kim, Ig-Jae and Nam, Gi Pyo},
   booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops},
-  year={2025}
+  month={June},
+  year={2025},
+  pages={5689--5696}
 }
 ```
+<details>
+  <summary>More Information (Click to expand)</summary>
+
+```bibtex
+@inproceedings{lee2025navigating,
+  title={Navigating Label Ambiguity for Facial Expression Recognition in the Wild},
+  author={Lee, JunGyu and Choi, Yeji and Kim, Haksub and Kim, Ig-Jae and Nam, Gi Pyo},
+  booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
+  volume={39},
+  number={4},
+  pages={4517--4525},
+  year={2025},
+  doi={10.1609/aaai.v39i4.32476}
+}
+```
+</details>
+
+<br>
 
 ## 🙏 Acknowledgements
 This research was supported by the KIST Institutional Program (Project No. 2E33612).
-
-
