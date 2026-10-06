@@ -7,7 +7,7 @@ from PIL import Image
 from PIL import ImageFile
 from torchvision import transforms
 ImageFile.LOAD_TRUNCATED_IMAGES = True
-from misc import *
+from data.misc import *
 from data.randaugment import *
 from data.randaugment import Cutout
 from PIL import Image

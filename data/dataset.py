@@ -13,7 +13,7 @@ from data.face_detector import Face_detector
 # from data.randaugment import augment_list, Cutout
 from data.randaugment import *
 from data.randaugment import Cutout
-from utils.file_utils import get_img_file, get_vid_file
+from data.misc import get_img_file, get_vid_file
 
 from PIL import Image
 import random

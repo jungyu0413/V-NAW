@@ -361,7 +361,7 @@ def CCC_metric(x,y):
 
 # save model
 def save_classifier(model, epoch, args):
-    path = os.path.join(args.output,f'{epoch}.pth')
+    path = os.path.join(args.output_dir, f'{epoch}.pth')
     torch.save(model.state_dict(), path)
     print(f'save : {epoch} : {path}')
 
