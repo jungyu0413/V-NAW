@@ -20,7 +20,7 @@
   --f-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
   --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
   --f-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
-  --container: 1040px; --measure: 70ch;
+  --container: 920px; --measure: 70ch;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) { --bg: #0f1214; --surface: #171b1e; --ink: #e9ecea; --muted: #9ba3a8; --line: #2a3034; color-scheme: dark; }
@@ -70,11 +70,12 @@ section { padding-block: clamp(40px, 6vw, 64px); border-top: 1px solid var(--lin
 .cap { color: var(--deck-muted); font: 400 0.84rem/1.5 var(--f-mono); padding: 0 4px; }
 figure { margin: 0; display: grid; gap: 10px; }
 /* figures sit at a reading size, not edge to edge; wide ones may use .wide */
-figure, .teaser { width: 100%; max-width: 820px; justify-self: center; margin-inline: auto; }
-figure.wide { max-width: none; }
-figure.small { max-width: 680px; }
+/* every media block spans the same text column, so all edges line up */
+figure, .teaser { width: 100%; }
 .pair { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
-.pair figure { max-width: none; }
+.pair figure { max-width: none; grid-template-rows: auto 1fr; }
+.pair .deck.light { aspect-ratio: 3 / 2; display: flex; align-items: center; justify-content: center; }
+.pair .deck.light img { width: 100%; height: 100%; object-fit: contain; }
 @media (max-width: 760px) { .pair { grid-template-columns: minmax(0, 1fr); } }
 .deck.light { padding: 10px; }
 figcaption { color: var(--muted); font: 400 0.86rem/1.55 var(--f-mono); max-width: 110ch; }
@@ -84,7 +85,9 @@ figcaption { color: var(--muted); font: 400 0.86rem/1.55 var(--f-mono); max-widt
 
 /* demo */
 .demo { display: grid; gap: 14px; }
-.demo-grid { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
+/* the player and the panel share one row height; the video is letterboxed inside a framed box */
+.demo-grid > video { height: 100%; object-fit: contain; background: #0b0d0f; border: 1px solid var(--deck-line); border-radius: 12px; }
+.demo-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); gap: 14px; align-items: stretch; }
 @media (max-width: 900px) { .demo-grid { grid-template-columns: minmax(0, 1fr); } }
 .panel { background: var(--deck-2); border: 1px solid var(--deck-line); border-radius: 12px; padding: 16px; display: grid; gap: 14px; align-content: start; }
 .panel .lab { font: 600 0.7rem/1 var(--f-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--deck-muted); }
@@ -143,7 +146,7 @@ footer a { color: inherit; }
 
 /* frame-wise vs clip-level */
 .duo { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
-.duo .bar { grid-template-columns: 70px minmax(0, 1fr) 36px; gap: 7px; font-size: 0.76rem; }
+.duo .bar { grid-template-columns: 64px minmax(0, 1fr) 32px; gap: 6px; font-size: 0.72rem; }
 .duo .head { font: 600 0.7rem/1.2 var(--f-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--deck-muted); margin-bottom: 4px; }
 .duo .head b { display: block; color: var(--deck-ink); font: 600 0.92rem/1.2 var(--f-display); letter-spacing: 0; text-transform: none; margin-top: 4px; }
 .tl { display: grid; gap: 6px; }
@@ -211,7 +214,6 @@ footer a { color: inherit; }
             <div><div class="head">Frame-wise<b id="hraw">–</b></div><div class="bars" id="braw"></div></div>
             <div><div class="head">Clip-level<b id="hclip">–</b></div><div class="bars" id="bclip"></div></div>
           </div>
-          <div class="note">Frame-wise probabilities come from our released NLA image model (ResNet-18, RAF-DB) run on every frame. Clip-level probabilities average them over a centred 1.2 s window, the aggregation V-NAW uses at inference. The V-NAW checkpoint and its temporal encoder are not used in this demo.</div>
         </div>
       </div>
       <div class="tl">
@@ -221,6 +223,7 @@ footer a { color: inherit; }
       <div class="tl-meta"><span>Top-1 changes in this clip: <b id="swr">–</b> frame-wise → <b id="swc">–</b> clip-level</span><span class="keys" id="keys"></span></div>
       <div class="clips" id="clips"></div>
       <p class="cap" id="clipcap"></p>
+      <div class="note">Frame-wise probabilities come from our released NLA image model (ResNet-18, RAF-DB) run on every frame. Clip-level probabilities average them over a centred 1.2 s window, the aggregation V-NAW uses at inference. The V-NAW checkpoint and its temporal encoder are not used in this demo.</div>
     </div>
   </section>
 
