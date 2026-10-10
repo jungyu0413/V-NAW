@@ -14,10 +14,11 @@
 </p>
 
 <p align="center">
+  <a href="https://jungyu0413.github.io/V-NAW/"><strong><code>Project Page</code></strong></a>
   <a href="https://openaccess.thecvf.com/content/CVPR2025W/ABAW/html/Lee_V-NAW_Video-based_Noise-aware_Adaptive_Weighting_for_Facial_Expression_Recognition_CVPRW_2025_paper.html"><strong><code>CVPRW Paper</code></strong></a>
   <a href="https://arxiv.org/abs/2503.15970"><strong><code>arXiv</code></strong></a>
   <a href="https://affective-behavior-analysis-in-the-wild.github.io/8th/"><strong><code>ABAW Challenge</code></strong></a>
-  <a href="https://github.com/jungyu0413/NLA"><strong><code>Image Model (NLA)</code></strong></a>
+  <a href="https://jungyu0413.github.io/NLA/"><strong><code>Image Model (NLA)</code></strong></a>
   <a href="#-citation"><strong><code>Citation</code></strong></a>
 </p>
 
